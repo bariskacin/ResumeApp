@@ -1,0 +1,17 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1>{{ title() }}</h1>
+    <nav class="app-nav">
+      <a routerLink="/editor" routerLinkActive="active">Editor</a>
+      <a routerLink="/preview" routerLinkActive="active">Preview</a>
+    </nav>
+  </header>
+  
+  <main class="app-main">
+    <router-outlet></router-outlet>
+  </main>
+  
+  <footer class="app-footer">
+    <p>Resume Maker App &copy; 2025</p>
+  </footer>
+</div>
