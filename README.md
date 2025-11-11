@@ -24,9 +24,26 @@ ResumeApp is a full-stack web application for creating, managing, and sharing pr
 2. **Install dependencies:**
    - Frontend: Navigate to `ResumeApp.client` and run `npm install`
    - Backend: Open `ResumeApp.server` in Visual Studio or use `dotnet restore`
-3. **Run the application:**
-   - Frontend: `ng serve` (Angular CLI)
-   - Backend: `dotnet run`
+3. **Run the application (two terminals):**
+   - Backend API:
+     ```sh
+     cd ResumeApp.server
+     dotnet watch run
+     ```
+   - Frontend (proxies `/api` calls to the backend):
+     ```sh
+     cd ResumeApp.client
+     npm start -- --proxy-config proxy.conf.json
+     ```
+
+### Configuration & Database
+- Update `ResumeApp.server/appsettings*.json` to tweak the `FrontendUrl`, database connection string, or JWT secrets.
+- SQLite is the default store (`Data Source=resume.db`). The database file lives under `ResumeApp.server/` and is ignored by git.
+- Entity Framework Core migrations live in `ResumeApp.server/Migrations`. They are applied automatically on startup, but you can run them manually with:
+  ```sh
+  cd ResumeApp.server
+  dotnet ef database update
+  ```
 
 ## Technologies Used
 - Angular

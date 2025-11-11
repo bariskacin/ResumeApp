@@ -1,0 +1,84 @@
+<section class="auth">
+  <div class="auth-card">
+    <div class="tabs">
+      <button type="button" [class.active]="mode() === 'login'" (click)="switchMode('login')">
+        Sign in
+      </button>
+      <button type="button" [class.active]="mode() === 'register'" (click)="switchMode('register')">
+        Create account
+      </button>
+    </div>
+
+    <p class="helper-text">
+      {{ mode() === 'login' ? 'Access your saved resumes.' : 'We just need a few details to get started.' }}
+    </p>
+
+    <form *ngIf="mode() === 'login'; else registerBlock" class="form" (ngSubmit)="submitLogin()" [formGroup]="loginForm">
+      <label>
+        Email
+        <input type="email" formControlName="email" placeholder="you@example.com" />
+        <span class="error" *ngIf="loginForm.controls.email.invalid && loginForm.controls.email.touched">
+          Enter a valid email.
+        </span>
+      </label>
+
+      <label>
+        Password
+        <input type="password" formControlName="password" placeholder="••••••••" />
+        <span class="error" *ngIf="loginForm.controls.password.invalid && loginForm.controls.password.touched">
+          Password must be at least 6 characters.
+        </span>
+      </label>
+
+      <button class="primary" type="submit" [disabled]="loading()">
+        {{ loading() ? 'Signing in...' : 'Sign in' }}
+      </button>
+    </form>
+
+    <ng-template #registerBlock>
+      <form class="form" (ngSubmit)="submitRegister()" [formGroup]="registerForm">
+        <div class="grid">
+          <label>
+            First name
+            <input type="text" formControlName="firstName" placeholder="Ada" />
+            <span class="error" *ngIf="registerForm.controls.firstName.invalid && registerForm.controls.firstName.touched">
+              Please enter at least 2 characters.
+            </span>
+          </label>
+
+          <label>
+            Last name
+            <input type="text" formControlName="lastName" placeholder="Lovelace" />
+            <span class="error" *ngIf="registerForm.controls.lastName.invalid && registerForm.controls.lastName.touched">
+              Please enter at least 2 characters.
+            </span>
+          </label>
+        </div>
+
+        <label>
+          Email
+          <input type="email" formControlName="email" placeholder="you@example.com" />
+          <span class="error" *ngIf="registerForm.controls.email.invalid && registerForm.controls.email.touched">
+            Enter a valid email.
+          </span>
+        </label>
+
+        <label>
+          Password
+          <input type="password" formControlName="password" placeholder="Choose a secure password" />
+          <span class="error" *ngIf="registerForm.controls.password.invalid && registerForm.controls.password.touched">
+            Password must be at least 6 characters.
+          </span>
+        </label>
+
+        <button class="primary" type="submit" [disabled]="loading()">
+          {{ loading() ? 'Creating account...' : 'Create account' }}
+        </button>
+      </form>
+    </ng-template>
+
+    <p class="error-banner" *ngIf="error()">
+      {{ error() }}
+    </p>
+  </div>
+</section>

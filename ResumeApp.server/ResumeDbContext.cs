@@ -5,26 +5,15 @@ namespace ResumeApp.server
 {
     public class ResumeDbContext : DbContext
     {
-        private readonly IConfiguration _configuration;
-
-        public ResumeDbContext(IConfiguration configuration)
+        public ResumeDbContext(DbContextOptions<ResumeDbContext> options) : base(options)
         {
-            _configuration = configuration;
         }
 
-        public DbSet<Person> People { get; set; }
-        public DbSet<Resume> Resumes { get; set; }
-        public DbSet<Experience> Experiences { get; set; }
-        public DbSet<Education> Educations { get; set; }
-        public DbSet<Skill> Skills { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
-            }
-        }
+        public DbSet<Person> People { get; set; } = null!;
+        public DbSet<Resume> Resumes { get; set; } = null!;
+        public DbSet<Experience> Experiences { get; set; } = null!;
+        public DbSet<Education> Educations { get; set; } = null!;
+        public DbSet<Skill> Skills { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

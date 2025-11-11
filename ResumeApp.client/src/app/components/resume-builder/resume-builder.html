@@ -1,0 +1,85 @@
+<section class="builder">
+  <div class="panel form-panel">
+    <div class="panel-header">
+      <div>
+        <p class="eyebrow">Resume editor</p>
+        <h2>{{ selectedResumeId() ? 'Update resume' : 'Create a new resume' }}</h2>
+        <p class="description">
+          Keep your professional story in sync. All resumes are scoped to your account.
+        </p>
+      </div>
+      <button *ngIf="selectedResumeId()" type="button" class="ghost" (click)="resetForm()">
+        Start fresh
+      </button>
+    </div>
+
+    <form class="form" [formGroup]="resumeForm" (ngSubmit)="submit()">
+      <label>
+        Headline
+        <input
+          type="text"
+          placeholder="Senior Product Designer"
+          formControlName="headline"
+        />
+        <span class="error" *ngIf="resumeForm.controls.headline.invalid && resumeForm.controls.headline.touched">
+          A headline is required (max 500 characters).
+        </span>
+      </label>
+
+      <label>
+        Summary
+        <textarea
+          formControlName="summary"
+          placeholder="A short overview of your skills, achievements, and ambitions."
+          rows="6"
+        ></textarea>
+        <span class="error" *ngIf="resumeForm.controls.summary.invalid && resumeForm.controls.summary.touched">
+          Summary must remain under 2000 characters.
+        </span>
+      </label>
+
+      <button type="submit" class="primary" [disabled]="saving()">
+        {{ saving() ? 'Saving…' : selectedResumeId() ? 'Update resume' : 'Create resume' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="panel list-panel">
+    <div class="panel-header">
+      <div>
+        <p class="eyebrow">Your library</p>
+        <h2>Saved resumes ({{ total() }})</h2>
+      </div>
+      <button type="button" class="ghost" (click)="loadResumes()" [disabled]="loading()">
+        Refresh
+      </button>
+    </div>
+
+    <p class="error-banner" *ngIf="errorMessage()">
+      {{ errorMessage() }}
+    </p>
+
+    <div class="empty" *ngIf="!loading() && !resumes().length">
+      <h3>Create your first resume</h3>
+      <p>
+        Draft, iterate, and export high-quality resumes. They will appear here as soon as you save them.
+      </p>
+    </div>
+
+    <ul class="resume-list">
+      <li *ngFor="let resume of resumes()">
+        <div class="meta">
+          <h3>{{ resume.headline }}</h3>
+          <p>{{ resume.summary || 'No summary added yet.' }}</p>
+          <small>Updated {{ resume.updatedAt | date: 'medium' }}</small>
+        </div>
+        <div class="actions">
+          <button type="button" (click)="editResume(resume)">Edit</button>
+          <button type="button" class="danger" (click)="deleteResume(resume)">Delete</button>
+        </div>
+      </li>
+    </ul>
+
+    <p class="loading" *ngIf="loading()">Loading your resumes…</p>
+  </div>
+</section>
